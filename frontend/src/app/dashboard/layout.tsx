@@ -2,7 +2,7 @@
 
 import { useEffect, useState, createContext } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { Star, LogOut, ArrowRight, Settings, QrCode, Loader2, Palette } from 'lucide-react';
+import { Star, LogOut, ArrowRight, Settings, QrCode, Loader2, Palette, Sliders, Copy, Check, Users } from 'lucide-react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import Loader from '@/components/Loader';
@@ -88,9 +88,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     router.push('/login');
   };
 
+  const [copied, setCopied] = useState(false);
+
   if (loading) {
     return <Loader />;
   }
+
+  const handleCopyLink = () => {
+    if (!businessDetail) return;
+    const url = `${window.location.origin}/${businessDetail.slug}`;
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const isLinkActive = (path: string, exact = false) => {
     return exact ? pathname === path : pathname.startsWith(path);
@@ -98,10 +108,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const navLinkClass = (path: string, exact = false) => {
     const active = isLinkActive(path, exact);
-    return `w-full flex items-center gap-3 px-4 py-3 rounded font-bold transition-all text-left border-l-2 ${
+    return `w-full flex items-center gap-3 px-4 py-3 rounded font-bold transition-all text-left ${
       active 
-        ? 'border-[#2563EB] bg-slate-50 text-slate-900' 
-        : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-50/50'
+        ? 'bg-[#2563EB] text-white' 
+        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50/50'
     }`;
   };
 
@@ -115,14 +125,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <img src="/icon.svg" alt="ReviewPulse Icon" className="h-7 w-7" />
             <div>
               <h1 className="text-lg font-bold text-[#0F172A] font-display tracking-tight leading-none">ReviewPulse</h1>
-              <p className="text-[9px] font-bold text-[#2563EB] uppercase tracking-widest mt-0.5">Executive Console</p>
+              <p className="text-[8px] font-bold text-[#2563EB] uppercase tracking-wider mt-0.5">Business Console</p>
             </div>
-          </div>
-
-          {/* Active Business Info */}
-          <div className="mx-4 p-4 rounded bg-slate-50 border border-slate-100">
-            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block">Active Tenant</span>
-            <span className="text-sm font-bold text-slate-800 block truncate font-display mt-0.5">{businessDetail?.name}</span>
           </div>
 
           {/* Nav Links */}
@@ -135,8 +139,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Star className="h-4.5 w-4.5" />
               <span className="text-sm">Reviews</span>
             </Link>
+            <Link href="/dashboard/customers" className={navLinkClass('/dashboard/customers')}>
+              <Users className="h-4.5 w-4.5" />
+              <span className="text-sm">Customers</span>
+            </Link>
             <Link href="/dashboard/services" className={navLinkClass('/dashboard/services')}>
-              <Settings className="h-4.5 w-4.5" />
+              <Sliders className="h-4.5 w-4.5" />
               <span className="text-sm">Services</span>
             </Link>
             <Link href="/dashboard/qrcode" className={navLinkClass('/dashboard/qrcode')}>
@@ -146,6 +154,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Link href="/dashboard/customize" className={navLinkClass('/dashboard/customize')}>
               <Palette className="h-4.5 w-4.5" />
               <span className="text-sm">Customize</span>
+            </Link>
+            <Link href="/dashboard/settings" className={navLinkClass('/dashboard/settings')}>
+              <Settings className="h-4.5 w-4.5" />
+              <span className="text-sm">Settings</span>
             </Link>
           </nav>
         </div>
@@ -167,14 +179,51 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Top Header */}
         <header className="flex justify-between items-center w-full px-8 h-16 bg-white border-b border-slate-100 sticky top-0 z-40">
           <h2 className="font-display text-lg font-bold text-slate-800 tracking-tight">
-            {businessDetail?.name} — Dashboard
+            Dashboard
           </h2>
-          <button
-            onClick={handleLogout}
-            className="text-xs font-semibold text-slate-500 hover:text-black transition-colors flex items-center gap-1"
-          >
-            Sign Out <ArrowRight className="h-3.5 w-3.5" />
-          </button>
+          <div className="flex items-center gap-6">
+            {businessDetail?.slug && (
+              <div className="flex items-center gap-4 border-r border-slate-200 pr-6 mr-1">
+                <button
+                  onClick={handleCopyLink}
+                  className="text-xs font-bold text-[#2563EB] hover:text-blue-700 transition-colors flex items-center gap-1.5 cursor-pointer bg-transparent border-0"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-3.5 w-3.5 text-green-600 animate-pulse" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3.5 w-3.5" />
+                      <span>Copy Link</span>
+                    </>
+                  )}
+                </button>
+                <Link
+                  href="/dashboard/qrcode"
+                  className="text-xs font-bold text-[#2563EB] hover:text-blue-700 transition-colors flex items-center gap-1.5"
+                >
+                  <QrCode className="h-3.5 w-3.5" />
+                  <span>QR Code</span>
+                </Link>
+                <a
+                  href={`/${businessDetail.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-bold text-[#2563EB] hover:text-blue-700 transition-colors flex items-center gap-1.5"
+                >
+                  Open Portal <ArrowRight className="h-3.5 w-3.5" />
+                </a>
+              </div>
+            )}
+            <button
+              onClick={handleLogout}
+              className="text-xs font-semibold text-slate-500 hover:text-black transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              Sign Out
+            </button>
+          </div>
         </header>
 
         {/* Dynamic Context Provider */}

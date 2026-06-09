@@ -238,7 +238,7 @@ export default function AdminReviews() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-[#faf8f5] text-slate-500 font-display font-bold text-[10px] uppercase tracking-wider border-b border-slate-100">
+            <thead className="bg-slate-50 text-slate-500 font-display font-bold text-[10px] uppercase tracking-wider border-b border-slate-100">
               <tr>
                 <th className="px-6 py-4">Reviewer</th>
                 <th className="px-6 py-4">Business</th>

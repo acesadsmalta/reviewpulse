@@ -18,6 +18,8 @@ class Business extends Model
         'logo_url',
         'cover_url',
         'services',
+        'promo_code',
+        'gmb_url',
     ];
 
     protected $casts = [

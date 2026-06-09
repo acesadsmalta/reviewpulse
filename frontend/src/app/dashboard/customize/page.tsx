@@ -83,7 +83,7 @@ export default function DashboardCustomize() {
   const [websiteInput, setWebsiteInput] = useState('');
   const [bgColor, setBgColor] = useState('#0d1527');
   const [textColor, setTextColor] = useState('#ffffff');
-  const [accentColor, setAccentColor] = useState('#d4af37');
+  const [accentColor, setAccentColor] = useState('#2563EB');
   const [fontFamily, setFontFamily] = useState('Outfit');
   const [logoError, setLogoError] = useState(false);
   const [mockSelectedServices, setMockSelectedServices] = useState<string[]>([]);
@@ -116,7 +116,7 @@ export default function DashboardCustomize() {
         setAccentColor('#735c00');
       } else {
         setTextColor('#ffffff');
-        setAccentColor('#d4af37');
+        setAccentColor('#2563EB');
       }
     }
   };
@@ -162,7 +162,7 @@ export default function DashboardCustomize() {
   if (!businessDetail) {
     return (
       <div className="flex justify-center items-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-[#d4af37]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#2563EB]" />
       </div>
     );
   }
@@ -170,8 +170,8 @@ export default function DashboardCustomize() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white shadow-xs border-t-4 border-t-[#d4af37] p-6 rounded">
-        <span className="text-sm font-bold text-[#d4af37] uppercase tracking-widest block">Tenant Branding System</span>
+      <div className="bg-white shadow-xs border-t-4 border-t-[#2563EB] p-6 rounded">
+        <span className="text-sm font-bold text-[#2563EB] uppercase tracking-widest block">Tenant Branding System</span>
         <h3 className="font-display text-2xl font-bold text-[#0d1527] tracking-tight">Customize Identity</h3>
         <p className="text-sm text-slate-500 mt-1">Modify brand logos, covers, colors, and Google Fonts to style your client portal.</p>
       </div>
@@ -180,7 +180,7 @@ export default function DashboardCustomize() {
         {/* LEFT PANEL: Editor */}
         <form onSubmit={handleSave} className="lg:col-span-6 bg-white shadow-xs p-6 rounded space-y-6 border border-slate-100">
           <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <Palette className="h-4.5 w-4.5 text-[#d4af37]" />
+            <Palette className="h-4.5 w-4.5 text-[#2563EB]" />
             <h4 className="font-display font-bold text-sm text-[#0d1527] uppercase tracking-wider">Brand Configuration</h4>
           </div>
 
@@ -200,7 +200,7 @@ export default function DashboardCustomize() {
           <div className="space-y-4">
             <div className="space-y-1.5">
               <label className="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <ImageIcon className="h-3.5 w-3.5 text-[#d4af37]" /> Brand Logo URL
+                <ImageIcon className="h-3.5 w-3.5 text-[#2563EB]" /> Brand Logo URL
               </label>
               <div className="flex items-center gap-3">
                 {logoUrl && (
@@ -219,7 +219,7 @@ export default function DashboardCustomize() {
                   </div>
                 )}
                 <div className="flex-1 flex gap-2">
-                  <label className="cursor-pointer flex items-center gap-1.5 px-3 py-2 border border-dashed border-slate-200 hover:border-[#d4af37] rounded text-sm bg-slate-50 hover:bg-slate-100/50 text-slate-500 hover:text-slate-800 transition-all font-semibold whitespace-nowrap select-none">
+                  <label className="cursor-pointer flex items-center gap-1.5 px-3 py-2 border border-dashed border-slate-200 hover:border-[#2563EB] rounded text-sm bg-slate-50 hover:bg-slate-100/50 text-slate-500 hover:text-slate-800 transition-all font-semibold whitespace-nowrap select-none">
                     <Upload className="h-3.5 w-3.5" />
                     Upload File
                     <input
@@ -250,7 +250,7 @@ export default function DashboardCustomize() {
                       setLogoError(false);
                     }}
                     placeholder={logoUrl.startsWith('data:') ? 'Uploaded image data' : 'Or paste image URL here...'}
-                    className="flex-1 rounded border border-slate-200 bg-white py-2 px-3 text-sm text-slate-850 focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 focus:border-[#d4af37] transition-all"
+                    className="flex-1 rounded border border-slate-200 bg-white py-2 px-3 text-sm text-slate-850 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-[#2563EB] transition-all"
                   />
                 </div>
               </div>
@@ -258,7 +258,7 @@ export default function DashboardCustomize() {
 
             <div className="space-y-1.5">
               <label className="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <ImageIcon className="h-3.5 w-3.5 text-[#d4af37]" /> Cover Image URL
+                <ImageIcon className="h-3.5 w-3.5 text-[#2563EB]" /> Cover Image URL
               </label>
               <div className="flex items-center gap-3">
                 {coverUrl && (
@@ -274,7 +274,7 @@ export default function DashboardCustomize() {
                   </div>
                 )}
                 <div className="flex-1 flex gap-2">
-                  <label className="cursor-pointer flex items-center gap-1.5 px-3 py-2 border border-dashed border-slate-200 hover:border-[#d4af37] rounded text-sm bg-slate-50 hover:bg-slate-100/50 text-slate-500 hover:text-slate-800 transition-all font-semibold whitespace-nowrap select-none">
+                  <label className="cursor-pointer flex items-center gap-1.5 px-3 py-2 border border-dashed border-slate-200 hover:border-[#2563EB] rounded text-sm bg-slate-50 hover:bg-slate-100/50 text-slate-500 hover:text-slate-800 transition-all font-semibold whitespace-nowrap select-none">
                     <Upload className="h-3.5 w-3.5" />
                     Upload File
                     <input
@@ -301,7 +301,7 @@ export default function DashboardCustomize() {
                     value={coverUrl.startsWith('data:') ? '' : coverUrl}
                     onChange={(e) => setCoverUrl(e.target.value)}
                     placeholder={coverUrl.startsWith('data:') ? 'Uploaded image data' : 'Or paste image URL here...'}
-                    className="flex-1 rounded border border-slate-200 bg-white py-2 px-3 text-sm text-slate-850 focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 focus:border-[#d4af37] transition-all"
+                    className="flex-1 rounded border border-slate-200 bg-white py-2 px-3 text-sm text-slate-850 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-[#2563EB] transition-all"
                   />
                 </div>
               </div>
@@ -309,14 +309,14 @@ export default function DashboardCustomize() {
 
             <div className="space-y-1.5">
               <label className="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <LinkIcon className="h-3.5 w-3.5 text-[#d4af37]" /> Company Website URL
+                <LinkIcon className="h-3.5 w-3.5 text-[#2563EB]" /> Company Website URL
               </label>
               <input
                 type="text"
                 value={websiteInput}
                 onChange={(e) => setWebsiteInput(e.target.value)}
                 placeholder="tesla.com"
-                className="w-full rounded border border-slate-200 bg-white py-2 px-3 text-sm text-slate-850 focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 focus:border-[#d4af37] transition-all"
+                className="w-full rounded border border-slate-200 bg-white py-2 px-3 text-sm text-slate-850 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-[#2563EB] transition-all"
               />
             </div>
           </div>
@@ -390,7 +390,7 @@ export default function DashboardCustomize() {
             <select
               value={fontFamily}
               onChange={(e) => setFontFamily(e.target.value)}
-              className="w-full rounded border border-slate-200 bg-white py-2.5 px-3 text-sm text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 focus:border-[#d4af37] transition-all cursor-pointer"
+              className="w-full rounded border border-slate-200 bg-white py-2.5 px-3 text-sm text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-[#2563EB] transition-all cursor-pointer"
             >
               {FONTS_LIST.map((f) => (
                 <option key={f} value={f}>
@@ -405,15 +405,15 @@ export default function DashboardCustomize() {
             <button
               type="submit"
               disabled={saving}
-              className="w-full bg-[#0d1527] hover:bg-slate-800 text-white py-2.5 px-6 rounded font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs text-sm uppercase tracking-wider disabled:opacity-50"
+              className="w-full bg-[#2563EB] hover:bg-blue-700 text-white py-2.5 px-6 rounded font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs text-sm uppercase tracking-wider disabled:opacity-50"
             >
               {saving ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin text-[#d4af37]" /> Saving Guidelines...
+                  <Loader2 className="h-4 w-4 animate-spin text-white" /> Saving Guidelines...
                 </>
               ) : (
                 <>
-                  <Save className="h-4 w-4 text-[#d4af37]" /> Save Brand Guidelines
+                  <Save className="h-4 w-4 text-white" /> Save Brand Guidelines
                 </>
               )}
             </button>
@@ -423,13 +423,13 @@ export default function DashboardCustomize() {
         {/* RIGHT PANEL: Live Public Portal Mockup Preview */}
         <div className="lg:col-span-6 flex flex-col gap-4">
           <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest self-start px-2">
-            <Eye className="h-4 w-4 text-[#d4af37]" /> Live Review Portal Preview
+            <Eye className="h-4 w-4 text-[#2563EB]" /> Live Review Portal Preview
           </div>
 
           {/* Mockup Frame browser window */}
           <div className="w-full border border-slate-200 rounded overflow-hidden shadow-xl bg-white select-none">
             {/* Top browser bar */}
-            <div className="bg-[#faf8f5] h-9 px-4 flex items-center gap-2 border-b border-slate-100">
+            <div className="bg-slate-50 h-9 px-4 flex items-center gap-2 border-b border-slate-100">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
               <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />

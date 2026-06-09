@@ -164,7 +164,12 @@ export default function DashboardReviews() {
           <h3 className="text-3xl font-bold text-green-600 font-display mt-1">
             {positiveCount}
           </h3>
-          <p className="text-xs text-slate-400 mt-1">Good ratings</p>
+          <p className="text-xs text-slate-400 mt-1 flex justify-between items-center">
+            <span>Good ratings</span>
+            <span className="font-bold text-[#2563EB] bg-blue-50 px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider">
+              {filtered.filter((r) => r.gmb_clicked).length} GMB Clicks
+            </span>
+          </p>
         </div>
         <div className="bg-white p-6 rounded border-l-4 border-l-rose-500 shadow-xs">
           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
@@ -236,7 +241,7 @@ export default function DashboardReviews() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-[#faf8f5] text-slate-500 font-display font-bold text-[10px] uppercase tracking-wider border-b border-slate-100">
+            <thead className="bg-slate-50 text-slate-500 font-display font-bold text-[10px] uppercase tracking-wider border-b border-slate-100">
               <tr>
                 <th className="px-6 py-4">Reviewer</th>
                 <th className="px-6 py-4">Rating</th>
@@ -279,9 +284,16 @@ export default function DashboardReviews() {
                             {r.reviewer_name?.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-slate-800 font-display leading-tight">
-                              {r.reviewer_name}
-                            </p>
+                            <div className="flex items-center gap-2">
+                              <p className="text-xs font-bold text-slate-800 font-display leading-tight">
+                                {r.reviewer_name}
+                              </p>
+                              {r.gmb_clicked && (
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
+                                  GMB Clicked
+                                </span>
+                              )}
+                            </div>
                             <p className="text-[10px] text-slate-400 mt-0.5">
                               {r.reviewer_email}
                             </p>
@@ -302,14 +314,14 @@ export default function DashboardReviews() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <button
-                          onClick={() => {
-                            setSelectedReview(r);
-                            setReplyText('');
-                          }}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#d4af37] bg-amber-500/5 hover:bg-amber-500/10 px-3 py-1.5 rounded transition-all cursor-pointer border border-amber-500/15"
-                          id={`view-review-${r.id}`}
+                           onClick={() => {
+                             setSelectedReview(r);
+                             setReplyText('');
+                           }}
+                           className="inline-flex items-center gap-1.5 text-xs font-bold text-[#d4af37] bg-amber-500/5 hover:bg-amber-500/10 px-3 py-1.5 rounded transition-all cursor-pointer border border-amber-500/15"
+                           id={`view-review-${r.id}`}
                         >
-                          <Eye className="h-3 w-3" /> View & Reply
+                           <Eye className="h-3 w-3" /> View & Reply
                         </button>
                       </td>
                     </tr>
@@ -373,7 +385,14 @@ export default function DashboardReviews() {
                       </span>
                     </div>
                   </div>
-                  <StatusBadge status={r.status} />
+                  <div className="flex flex-col items-end gap-1.5">
+                    <StatusBadge status={r.status} />
+                    {r.gmb_clicked && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
+                        GMB Review Clicked
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Comment */}
@@ -447,12 +466,12 @@ export default function DashboardReviews() {
                         placeholder="Write a message to this customer..."
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
-                        className="w-full rounded border border-slate-200 bg-white py-2 px-3 text-xs text-slate-850 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 focus:border-[#d4af37] transition-all resize-none"
+                        className="w-full rounded border border-slate-200 bg-white py-2 px-3 text-xs text-slate-850 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-[#2563EB] transition-all resize-none"
                       />
                       <button
                         onClick={() => handleSendReplyFromModal(r.id)}
                         disabled={replyLoading || !replyText.trim()}
-                        className="w-full bg-[#0d1527] hover:bg-slate-800 text-white font-bold uppercase tracking-widest text-[10px] py-2.5 rounded transition-all shadow-xs cursor-pointer disabled:opacity-50"
+                        className="w-full bg-[#2563EB] hover:bg-blue-700 text-white font-bold uppercase tracking-widest text-[10px] py-2.5 rounded transition-all shadow-xs cursor-pointer disabled:opacity-50"
                       >
                         {replyLoading ? 'Sending Response...' : 'Send Reply'}
                       </button>

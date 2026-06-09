@@ -131,4 +131,19 @@ class ReviewController extends Controller
 
         return response()->json($review);
     }
+
+    /**
+     * Public route: Track GMB click.
+     */
+    public function trackGmbClick(string $id): JsonResponse
+    {
+        $review = Review::findOrFail($id);
+        $review->update(['gmb_clicked' => true]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'GMB click registered successfully.',
+            'review' => $review
+        ]);
+    }
 }

@@ -21,10 +21,12 @@ class Review extends Model
         'status',
         'admin_reply',
         'replied_at',
+        'gmb_clicked',
     ];
 
     protected $casts = [
         'replied_at' => 'datetime',
+        'gmb_clicked' => 'boolean',
     ];
 
     public function business(): BelongsTo

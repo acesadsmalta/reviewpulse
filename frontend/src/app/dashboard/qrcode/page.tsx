@@ -605,16 +605,16 @@ export default function DashboardQrCode() {
           <div className="flex flex-col gap-2.5 pt-4 border-t border-slate-100">
             <button
               onClick={handlePrint}
-              className="w-full bg-[#0d1527] hover:bg-slate-800 text-white py-2.5 px-6 rounded font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs text-sm uppercase tracking-wider"
+              className="w-full bg-[#2563EB] hover:bg-blue-700 text-white py-2.5 px-6 rounded font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs text-sm uppercase tracking-wider"
             >
-              <Printer className="h-4 w-4 text-[#d4af37]" /> Print / Save PDF
+              <Printer className="h-4 w-4 text-white" /> Print / Save PDF
             </button>
             <button
               onClick={handleDownloadPng}
               disabled={isGenerating}
               className="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 py-2.5 px-6 rounded font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs text-sm uppercase tracking-wider disabled:opacity-50"
             >
-              <QrCode className="h-4 w-4 text-[#d4af37]" /> {isGenerating ? 'Generating...' : 'Download High-Res PNG'}
+              <QrCode className="h-4 w-4 text-[#2563EB]" /> {isGenerating ? 'Generating...' : 'Download High-Res PNG'}
             </button>
           </div>
         </div>

@@ -92,10 +92,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navLinkClass = (path: string, exact = false) => {
     const active = isLinkActive(path, exact);
-    return `w-full flex items-center gap-3 px-4 py-3 rounded font-bold transition-all text-left border-l-2 ${
+    return `w-full flex items-center gap-3 px-4 py-3 rounded font-bold transition-all text-left ${
       active 
-        ? 'border-[#2563EB] bg-slate-50 text-slate-900' 
-        : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-50/50'
+        ? 'bg-[#2563EB] text-white' 
+        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50/50'
     }`;
   };
 

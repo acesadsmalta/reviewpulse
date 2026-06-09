@@ -94,6 +94,7 @@ class BusinessController extends Controller
 
         $request->validate([
             'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'owner_name' => ['sometimes', 'required', 'string', 'max:255'],
             'slug' => ['sometimes', 'required', 'string', 'max:255', Rule::unique('businesses', 'slug')->ignore($business->id)],
             'email' => ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique('businesses', 'email')->ignore($business->id)],
             'password' => ['nullable', 'string', 'min:6'],
@@ -101,10 +102,12 @@ class BusinessController extends Controller
             'logo_url' => ['nullable', 'string', 'max:512'],
             'cover_url' => ['nullable', 'string', 'max:512'],
             'services' => ['nullable', 'array'],
+            'promo_code' => ['nullable', 'string', 'max:255'],
+            'gmb_url' => ['nullable', 'string', 'max:512'],
         ]);
 
         DB::transaction(function () use ($request, $business) {
-            $updates = $request->only(['name', 'website_url', 'logo_url', 'cover_url', 'services']);
+            $updates = $request->only(['name', 'website_url', 'logo_url', 'cover_url', 'services', 'promo_code', 'gmb_url']);
             
             if ($request->has('slug')) {
                 $updates['slug'] = Str::slug($request->slug);
@@ -119,8 +122,8 @@ class BusinessController extends Controller
             $user = User::where('business_id', $business->id)->first();
             if ($user) {
                 $userUpdates = [];
-                if ($request->has('name')) {
-                    $userUpdates['name'] = $request->name . ' Owner';
+                if ($request->has('owner_name')) {
+                    $userUpdates['name'] = $request->owner_name;
                 }
                 if ($request->has('email')) {
                     $userUpdates['email'] = strtolower(trim($request->email));

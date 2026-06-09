@@ -16,6 +16,8 @@ interface Business {
   logo_url?: string;
   cover_url?: string;
   services?: string[];
+  promo_code?: string;
+  gmb_url?: string;
 }
 
 function ConfettiEffect() {
@@ -135,6 +137,60 @@ export default function PublicReviewPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [step, setStep] = useState<number>(1);
+  const [clickedGmb, setClickedGmb] = useState(false);
+  const [submittedReview, setSubmittedReview] = useState<any>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [gmbClickedPending, setGmbClickedPending] = useState(false);
+
+  useEffect(() => {
+    const handleFocus = () => {
+      if (gmbClickedPending) {
+        setGmbClickedPending(false);
+        setClickedGmb(true);
+        setShowConfetti(true);
+      }
+    };
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [gmbClickedPending]);
+
+  const handleGmbClick = () => {
+    if (business?.gmb_url) {
+      if (submittedReview?.id) {
+        api.post(`/public/reviews/${submittedReview.id}/gmb-click`).catch(console.error);
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(comment);
+        } else {
+          const textArea = document.createElement('textarea');
+          textArea.value = comment;
+          textArea.style.top = '0';
+          textArea.style.left = '0';
+          textArea.style.position = 'fixed';
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+        }
+      } catch (err) {
+        console.error('Failed to copy comment:', err);
+      }
+      window.open(business.gmb_url, '_blank');
+      setGmbClickedPending(true);
+      // Fallback in case window focus event isn't captured
+      setTimeout(() => {
+        setClickedGmb((prev) => {
+          if (!prev) {
+            setShowConfetti(true);
+            return true;
+          }
+          return prev;
+        });
+      }, 5000);
+    }
+  };
 
   // Load from cache on client mount
   useEffect(() => {
@@ -193,7 +249,7 @@ export default function PublicReviewPage() {
     try {
       if (!business) throw new Error('No active business session.');
       
-      await api.post('/reviews', {
+      const createdReview = await api.post<any>('/reviews', {
         business_id: business.id,
         rating,
         comment: comment.trim(),
@@ -205,7 +261,11 @@ export default function PublicReviewPage() {
           : (service.trim() || 'General Service'),
       });
 
+      setSubmittedReview(createdReview);
       setStep(3);
+      if (!business.gmb_url) {
+        setShowConfetti(true);
+      }
       try { localStorage.removeItem(CACHE_KEY); } catch {}
     } catch (err: any) {
       setError(err?.message || 'Failed to submit your review. Please try again.');
@@ -587,32 +647,70 @@ export default function PublicReviewPage() {
               ) : (
                 /* Congratulation screen */
                 <div className="space-y-6">
-                  <ConfettiEffect />
+                  {showConfetti && <ConfettiEffect />}
                   <div className="text-6xl animate-bounce">🎉</div>
-                  <div className="space-y-3">
-                    <h2 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight" style={{ color: branding.textColor }}>
-                      Thank you so much!
-                    </h2>
-                    <p className="text-sm opacity-85 leading-relaxed max-w-md mx-auto" style={{ color: branding.textColor }}>
-                      We are thrilled to hear you had a great experience with <span className="font-bold">{business.name}</span>. Your support means everything to us!
-                    </p>
-                  </div>
+                  
+                  {business.gmb_url && !clickedGmb ? (
+                    /* Step 3a: Prompt to review on Google My Business */
+                    <div className="space-y-6 max-w-md mx-auto">
+                      <div className="space-y-3">
+                        <h2 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight" style={{ color: branding.textColor }}>
+                          One last step!
+                        </h2>
+                        <p className="text-sm opacity-85 leading-relaxed" style={{ color: branding.textColor }}>
+                          Please give this review on Google, you will get a great gift!
+                        </p>
+                      </div>
 
-                  {/* Gift voucher box */}
-                  <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xs p-6 max-w-sm mx-auto text-center space-y-4">
-                    <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/10 text-white inline-block">
-                      Exclusive Gift Card
-                    </span>
-                    <div>
-                      <p className="text-xs opacity-75 uppercase tracking-wider">Your Discount Code</p>
-                      <p className="text-3xl font-black tracking-widest mt-1 font-display" style={{ color: headingAccentColor }}>
-                        {business.name.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8)}15
-                      </p>
+                      {/* Display the review comment they wrote */}
+                      <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-xs italic text-left relative">
+                        <span className="text-[8px] font-bold uppercase tracking-wider opacity-50 block mb-1">Your Review:</span>
+                        "{comment}"
+                      </div>
+
+                      <button
+                        onClick={handleGmbClick}
+                        className="w-full py-4 bg-[#4285F4] hover:bg-blue-600 text-white font-bold uppercase tracking-widest text-xs transition-all shadow-md flex items-center justify-center gap-2 rounded-sm cursor-pointer"
+                      >
+                        Copy Review & Post on Google
+                      </button>
+
+                      <button
+                        onClick={() => setClickedGmb(true)}
+                        className="text-xs opacity-60 hover:opacity-100 underline transition-all"
+                      >
+                        Skip and get promo code
+                      </button>
                     </div>
-                    <p className="text-xs opacity-70 leading-relaxed">
-                      Use this code at checkout to get a <span className="font-bold text-white">15% discount</span> on your next order!
-                    </p>
-                  </div>
+                  ) : (
+                    /* Step 3b: Show the dynamic business promo code */
+                    <div className="space-y-6">
+                      <div className="space-y-3">
+                        <h2 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight" style={{ color: branding.textColor }}>
+                          Thank you so much!
+                        </h2>
+                        <p className="text-sm opacity-85 leading-relaxed max-w-md mx-auto" style={{ color: branding.textColor }}>
+                          We are thrilled to hear you had a great experience with <span className="font-bold">{business.name}</span>. Your support means everything to us!
+                        </p>
+                      </div>
+
+                      {/* Gift voucher box */}
+                      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xs p-6 max-w-sm mx-auto text-center space-y-4">
+                        <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/10 text-white inline-block">
+                          Exclusive Gift Card
+                        </span>
+                        <div>
+                          <p className="text-xs opacity-75 uppercase tracking-wider">Your Promo Code</p>
+                          <p className="text-3xl font-black tracking-widest mt-1 font-display" style={{ color: headingAccentColor }}>
+                            {business.promo_code ? business.promo_code.toUpperCase() : 'THANKYOU15'}
+                          </p>
+                        </div>
+                        <p className="text-xs opacity-70 leading-relaxed">
+                          Use this code at checkout to get a <span className="font-bold text-white">discount</span> on your next visit!
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -626,6 +724,10 @@ export default function PublicReviewPage() {
                     setName('');
                     setEmail('');
                     setPhone('');
+                    setClickedGmb(false);
+                    setSubmittedReview(null);
+                    setShowConfetti(false);
+                    setGmbClickedPending(false);
                     setStep(1);
                   }}
                   className="w-full py-3 bg-[#1e1e22]/50 border border-white/10 hover:bg-white/5 rounded text-xs font-bold uppercase tracking-widest text-white transition-colors cursor-pointer"

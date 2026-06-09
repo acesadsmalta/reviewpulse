@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { Star, Copy, Check, Search, Filter, AlertCircle, Megaphone, UserCheck, CornerDownRight, ArrowRight, QrCode } from 'lucide-react';
+import { Star, Search, Filter, AlertCircle, Megaphone, UserCheck, CornerDownRight, ArrowRight } from 'lucide-react';
 import { DashboardContext } from './layout';
 import { api } from '@/lib/api';
 
@@ -10,7 +10,6 @@ export default function DashboardOverview() {
   const router = useRouter();
   const context = useContext(DashboardContext);
 
-  const [copied, setCopied] = useState(false);
   const [search, setSearch] = useState('');
   const [starFilter, setStarFilter] = useState<number | 'all'>('all');
   const [replyTexts, setReplyTexts] = useState<Record<string, string>>({});
@@ -31,14 +30,6 @@ export default function DashboardOverview() {
       return () => clearInterval(interval);
     }
   }, [refreshData]);
-
-  const handleCopyLink = () => {
-    if (!businessDetail) return;
-    const url = `${window.location.origin}/${businessDetail.slug}`;
-    navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const handleSendReply = async (reviewId: string) => {
     const text = replyTexts[reviewId]?.trim();
@@ -81,29 +72,6 @@ export default function DashboardOverview() {
 
   return (
     <div className="space-y-6">
-      {/* Public URL Banner */}
-      <section>
-        <div className="bg-white p-6 rounded shadow-sm border-t-4 border-t-[#2563EB] flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="space-y-1 text-center md:text-left">
-            <h3 className="font-display text-lg font-bold text-[#0F172A]">Your Public Review Portal</h3>
-            <p className="text-xs text-slate-500">Share this link with your customers to collect high-quality feedback instantly.</p>
-          </div>
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto shrink-0">
-            <button
-              onClick={handleCopyLink}
-              className="w-full sm:w-auto bg-[#2563EB] hover:bg-blue-700 text-white py-2.5 px-6 rounded font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs text-xs uppercase tracking-wider"
-            >
-              {copied ? <><Check className="h-4 w-4 text-[#FBBF24]" /> Copied!</> : <><Copy className="h-4 w-4" /> Copy Link</>}
-            </button>
-            <button
-              onClick={() => router.push('/dashboard/qrcode')}
-              className="w-full sm:w-auto bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 py-2.5 px-6 rounded font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs text-xs uppercase tracking-wider"
-            >
-              <QrCode className="h-4 w-4 text-[#2563EB]" /> Get a Review Card
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* Stats Grid */}
       <section className="grid gap-6 md:grid-cols-4">

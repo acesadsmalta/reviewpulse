@@ -18,6 +18,7 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 Route::get('/public/businesses/{slug}', [BusinessController::class, 'showBySlug']);
 Route::get('/public/portals', [BusinessController::class, 'publicPortals']);
 Route::post('/reviews', [ReviewController::class, 'store']);
+Route::post('/public/reviews/{id}/gmb-click', [ReviewController::class, 'trackGmbClick']);
 Route::post('/public/scrape-branding', [BusinessController::class, 'scrapeBranding']);
 Route::get('/proxy-image', [BusinessController::class, 'proxyImage']);
 

@@ -96,18 +96,18 @@ export default function DashboardServices() {
             placeholder="E.g. Kitchen Remodeling, Consultation"
             value={newServiceName}
             onChange={(e) => setNewServiceName(e.target.value)}
-            className="flex-grow rounded border border-slate-200 bg-white py-2 px-4 text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 focus:border-[#d4af37] transition-all"
+            className="flex-grow rounded border border-slate-200 bg-white py-2 px-4 text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-[#2563EB] transition-all"
           />
           <button
             type="submit"
             disabled={updatingServices || loading || !newServiceName.trim()}
-            className="inline-flex items-center gap-1.5 bg-[#0d1527] hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded transition-all cursor-pointer shadow-xs disabled:opacity-50 shrink-0"
+            className="inline-flex items-center gap-1.5 bg-[#2563EB] hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-widest px-6 py-2.5 rounded transition-all cursor-pointer shadow-xs disabled:opacity-50 shrink-0"
           >
             {updatingServices ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
             ) : (
               <>
-                <Plus className="h-3.5 w-3.5 text-[#d4af37]" /> Add Service
+                <Plus className="h-3.5 w-3.5 text-white" /> Add Service
               </>
             )}
           </button>
@@ -123,7 +123,7 @@ export default function DashboardServices() {
               <Loader2 className="h-4 w-4 animate-spin text-[#d4af37]" /> Loading services...
             </div>
           ) : services.length === 0 ? (
-            <div className="p-10 text-center text-xs text-slate-400 bg-[#faf8f5] rounded border border-dashed border-slate-200">
+            <div className="p-10 text-center text-xs text-slate-400 bg-slate-50 rounded border border-dashed border-slate-200">
               No services configured yet. Add a service above — customers will see a default "General Service" option until then.
             </div>
           ) : (

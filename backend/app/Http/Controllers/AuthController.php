@@ -51,6 +51,8 @@ class AuthController extends Controller
                 'logo_url' => $business->logo_url,
                 'cover_url' => $business->cover_url,
                 'services' => $business->services ?? [],
+                'promo_code' => $business->promo_code,
+                'gmb_url' => $business->gmb_url,
             ] : null,
         ]);
     }
@@ -93,6 +95,8 @@ class AuthController extends Controller
                 'logo_url' => $business->logo_url,
                 'cover_url' => $business->cover_url,
                 'services' => $business->services ?? [],
+                'promo_code' => $business->promo_code,
+                'gmb_url' => $business->gmb_url,
             ] : null,
         ]);
     }
@@ -156,6 +160,8 @@ class AuthController extends Controller
                     'logo_url' => $biz->logo_url,
                     'cover_url' => $biz->cover_url,
                     'services' => [],
+                    'promo_code' => $biz->promo_code,
+                    'gmb_url' => $biz->gmb_url,
                 ]
             ];
         });

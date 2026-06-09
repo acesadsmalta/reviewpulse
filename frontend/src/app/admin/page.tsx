@@ -72,10 +72,19 @@ export default function AdminBusinesses() {
     }
   };
 
+  const isSlugTaken = slug.trim() !== '' && businesses.some((b: any) => 
+    b.slug.toLowerCase() === slug.trim().toLowerCase() && 
+    (!editingBusiness || b.id !== editingBusiness.id)
+  );
+
   const handleSaveBusiness = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
     setFormSuccess('');
+    if (isSlugTaken) {
+      setFormError('The requested portal slug is already taken by another business.');
+      return;
+    }
     setFormLoading(true);
     try {
       if (editingBusiness) {
@@ -340,6 +349,13 @@ export default function AdminBusinesses() {
                         className="w-full rounded border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-[#2563EB] transition-all font-mono"
                       />
                     </div>
+                    {slug.trim() && (
+                      isSlugTaken ? (
+                        <p className="text-[10px] text-rose-600 mt-1 font-bold">❌ This URL slug is already taken.</p>
+                      ) : (
+                        <p className="text-[10px] text-green-600 mt-1 font-bold">✅ This URL slug is available!</p>
+                      )
+                    )}
                     <p className="text-[10px] text-slate-400 mt-1">Live link route: <code>/{slug || '[slug]'}</code></p>
                   </div>
 
