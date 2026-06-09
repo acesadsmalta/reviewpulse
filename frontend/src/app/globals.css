@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* Vibrant & Clean Premium Palette */
+  --background: #F8FAFC;      /* Clean slate white (fresh, not dull) */
+  --foreground: #0F172A;      /* Rich dark midnight slate */
+  
+  --color-sand-50: #FFFFFF;    /* Crisp card white */
+  --color-sand-100: #F1F5F9;   /* Very light slate blue for zones */
+  --color-sand-200: #E2E8F0;   /* Clean slate border lines */
+  --color-sand-300: #CBD5E1;
+  --color-sand-800: #1E293B;
+  
+  --color-luxury-gold: #2563EB;     /* Saturated Cobalt Blue primary accent */
+  --color-luxury-gold-dark: #1D4ED8;
+  --color-luxury-gold-light: #EFF6FF;
+  
+  --color-secondary-yellow: #FBBF24; /* Bright Yellow secondary accent */
+  --color-secondary-yellow-dark: #D97706;
+  --color-secondary-yellow-light: #FEF9C3;
+  
+  --color-luxury-green: #10B981;    /* Vibrant green */
+  --color-luxury-red: #EF4444;      /* Vibrant red */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-sand-50: var(--color-sand-50);
+  --color-sand-100: var(--color-sand-100);
+  --color-sand-200: var(--color-sand-200);
+  --color-sand-300: var(--color-sand-300);
+  --color-sand-800: var(--color-sand-800);
+  
+  --color-gold-accent: var(--color-luxury-gold);
+  --color-gold-accent-dark: var(--color-luxury-gold-dark);
+  --color-gold-accent-light: var(--color-gold-accent-light);
+  
+  --color-yellow-accent: var(--color-secondary-yellow);
+  --color-yellow-accent-dark: var(--color-secondary-yellow-dark);
+  --color-yellow-accent-light: var(--color-secondary-yellow-light);
+  
+  --color-luxury-green: var(--color-luxury-green);
+  --color-luxury-red: var(--color-luxury-red);
+  
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-sans); /* Fallback serif to sans for consistent modern look */
+  --font-mono: var(--font-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Sharp, Minimalist Headings */
+h1, h2, h3, .font-serif-heading {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--foreground);
+}
+
+/* Clean divider lines */
+.border-premium {
+  border-color: var(--color-sand-200);
+}
+
+/* Subtle modern roundness (6px) */
+.btn-premium-primary {
+  background-color: var(--color-luxury-gold);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--color-luxury-gold);
+  border-radius: 6px !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-premium-primary:hover {
+  background-color: var(--color-luxury-gold-dark);
+  border-color: var(--color-luxury-gold-dark);
+  color: #ffffff;
+}
+
+.btn-premium-secondary {
+  background-color: transparent;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--color-sand-200);
+  border-radius: 6px !important;
+  transition: all 0.15s ease;
+}
+
+.btn-premium-secondary:hover {
+  border-color: var(--foreground);
+  background-color: var(--color-sand-100);
+}
+
+/* Subtle modern card with light border and soft radius (8px) */
+.card-premium {
+  background-color: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-premium:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.06);
+}
+
+/* Soft rounded input fields */
+.input-premium {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid var(--color-sand-200);
+  border-radius: 6px !important;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--foreground);
+  transition: border-color 0.15s ease;
+}
+
+.input-premium:focus {
+  outline: none;
+  border-color: var(--foreground);
+}
